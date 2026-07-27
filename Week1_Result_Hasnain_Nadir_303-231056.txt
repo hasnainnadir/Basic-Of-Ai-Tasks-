@@ -1,0 +1,141 @@
+WEEK 1 ASSESSMENT — PYTHON FUNDAMENTALS
+========================================
+Student: Hasnain Nadir
+Student ID: 303-231056
+Group: 4
+Started: 7/27/2026, 5:32:31 PM
+Ended: 7/27/2026, 6:07:31 PM
+Outcome: timeup
+
+AUTO-GRADED SCORE: 43/60
+  Section A (MCQ): 28/30
+  Section B (Output Prediction): 15/30
+
+--- SECTION A ANSWERS ---
+A1. Which of the following data types is immutable in Python?
+   Answer given: c) tuple
+   Correct answer: c) tuple
+A2. What is the type of the expression (1 == 1.0)?
+   Answer given: c) bool
+   Correct answer: c) bool
+A3. Which operator has the HIGHEST precedence in Python?
+   Answer given: b) **
+   Correct answer: b) **
+A4. What does 0.1 + 0.2 == 0.3 evaluate to in standard Python?
+   Answer given: b) False
+   Correct answer: b) False
+A5. What is the result of 7 // -2 in Python?
+   Answer given: b) -4
+   Correct answer: b) -4
+A6. Which of these DOES NOT create a copy of a list `lst`?
+   Answer given: d) lst2 = lst
+   Correct answer: d) lst2 = lst
+A7. What does the `pass` statement do?
+   Answer given: c) Is a syntactic no-op / placeholder
+   Correct answer: c) Is a syntactic no-op / placeholder
+A8. When are default parameter values evaluated in `def f(x, lst=[])`?
+   Answer given: b) Once, when the function is defined
+   Correct answer: b) Once, when the function is defined
+A9. A lambda function in Python can contain:
+   Answer given: b) Only a single expression, evaluated and returned implicitly
+   Correct answer: b) Only a single expression, evaluated and returned implicitly
+A10. Inside a class method, what does `self` refer to?
+   Answer given: c) The specific instance the method is called on
+   Correct answer: c) The specific instance the method is called on
+A11. Which built-in lets a subclass call a method from its parent class?
+   Answer given: b) super()
+   Correct answer: b) super()
+A12. Key difference between `==` and `is` in Python?
+   Answer given: b) `==` compares values, `is` compares object identity
+   Correct answer: b) `==` compares values, `is` compares object identity
+A13. What does `*args` in a function signature allow?
+   Answer given: b) Accepting any number of positional arguments, collected into a tuple
+   Correct answer: b) Accepting any number of positional arguments, collected into a tuple
+A14. How many times does the base case get hit in a correct recursive factorial(5)?
+   Answer given: b) 1
+   Correct answer: b) 1
+A15. Which loop construct guarantees at least one execution, like do-while in C?
+   Answer given: b) while
+   Correct answer: d) Python has no built-in do-while loop
+
+--- SECTION B ANSWERS ---
+B1. What does this print?
+   Student answer: [1] | [1, 2]
+   Expected: [1] | [1, 2]
+B2. What does this print?
+   Student answer: print(2+3*4**2//5)
+   Expected: 11
+B3. What does this print?
+   Student answer: true true true false
+   Expected: True True True False
+B4. What does this print? (two separate print lines)
+   Student answer: pythonrocks
+   Expected: skcoRnohtyP | toR
+B5. What does this print?
+   Student answer: After loop
+   Expected: After loop
+B6. What does this print?
+   Student answer: [8,9,5,3,1]
+   Expected: [8, 2, 9, 5, 3, 1]
+B7. What does this print?
+   Student answer: 3 3 3
+   Expected: 3 3 3
+B8. What does this print? (multiple inheritance / MRO)
+   Student answer: DBCA
+   Expected: DBCA
+B9. What does this print?
+   Student answer: Zero div  | Done15
+   Expected: Zero div | Done
+B10. What does this print?
+   Student answer: plain text  | 15 | 15 | 
+   Expected: 15 | 15
+
+--- SECTION C: DEBUGGING (manual review, 10 marks) ---
+C1. This function is meant to compute factorial(n), but crashes for every input. State the bug, then give the corrected code.
+if n==0 or n==1:
+  return 1
+ 
+
+C2. This function is meant to check if a string is a palindrome, but raises an error. State the bug, then give the corrected code.
+return s==s[::-1]
+
+--- SECTION D: CODING (manual review, 30 marks) ---
+D1. Write a recursive Fibonacci function fib(n) that uses memoization (a dictionary cache) so repeated calls don't recompute values. Use it to print fib(30) and briefly explain (1-2 lines) why memoization is necessary here in terms of time complexity.
+def fib(n, cache={}):
+ if n in cache:
+   return cache[n]
+ if n<=0: 
+   return 0:
+ if n==1 :
+   return 1
+cache [n] =fib(n -1,cache) + fib (n-2)
+return cache[n]
+print fib(30)
+print(f"fib(30) ={fib(30)}")
+
+
+D2. Design a small class hierarchy: a base class Employee(name, base_salary) with calculate_pay() returning base_salary. Create Manager (adds a fixed bonus) and Developer (adds overtime_hours * hourly_rate), each overriding calculate_pay(). Loop over a mixed list of both and print each employee's name and pay, demonstrating polymorphism.
+class employee:
+ def --init--(self, name , base_salary)
+   self.name = name 
+   self.base_salary = base_salary
+ def calculat_pay(self):
+ return self_base_salary
+
+class Manager(employee):
+ def --init--(self, name , base_salary,bonus)
+ super(). --init--(self, name , base_salary)
+self.bonus= bonus 
+def calculate_pay(self):
+ return self.base_salary +self.bonus
+class Developer(employee):
+ def --init--(self, name , base_salary,overtime_hours, hourly_rate):
+ super(). --init--(self, name , base_salary,)
+self.overtime_hours=overtime_hours
+self.hourly_rate + hourly_rate
+def calculate_pay(self):
+ return self.bas_salary+(self.overtime
+
+
+D3. Write a program that repeatedly asks the user for two integers and divides the first by the second. It must: (a) keep looping until valid integers are entered (catch ValueError), (b) catch division by zero without crashing (catch ZeroDivisionError), and (c) let the user try again on bad input instead of exiting.
+(blank)
