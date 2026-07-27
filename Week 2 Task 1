@@ -1,0 +1,54 @@
+# ============================
+# Read and Write CSV and JSON
+# ============================
+
+import csv
+import json
+
+# ----------------------------
+# Sample Data
+# ----------------------------
+students = [
+    {"name": "Ali", "marks": 85},
+    {"name": "Sara", "marks": 92},
+    {"name": "Ahmed", "marks": 70}
+]
+
+# ----------------------------
+# Write to CSV
+# ----------------------------
+with open("students.csv", "w", newline="") as file:
+    writer = csv.DictWriter(file, fieldnames=["name", "marks"])
+    writer.writeheader()
+    writer.writerows(students)
+
+print("CSV file created.")
+
+# ----------------------------
+# Read CSV
+# ----------------------------
+print("\nReading CSV:")
+with open("students.csv", "r") as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        print(row)
+
+# ----------------------------
+# Write to JSON
+# ----------------------------
+with open("students.json", "w") as file:
+    json.dump(students, file, indent=4)
+
+print("\nJSON file created.")
+
+# ----------------------------
+# Read JSON and Filter Records
+# ----------------------------
+print("\nStudents with marks above 80:")
+
+with open("students.json", "r") as file:
+    data = json.load(file)
+
+    for student in data:
+        if student["marks"] > 80:
+            print(student)
