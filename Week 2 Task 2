@@ -1,0 +1,55 @@
+import numpy as np
+
+# ==========================
+# Create Arrays
+# ==========================
+
+arr = np.array([10, 20, 30, 40, 50, 60, 70])
+print("Original Array:", arr)
+
+matrix = np.array([[1, 2, 3],
+                   [4, 5, 6],
+                   [7, 8, 9]])
+
+print("\n2D Array:")
+print(matrix)
+
+# ==========================
+# Indexing
+# ==========================
+
+print("\nFirst Element:", arr[0])
+print("Last Element:", arr[-1])
+print("Element at Row 2, Column 3:", matrix[1, 2])
+
+# ==========================
+# Slicing
+# ==========================
+
+print("\nElements from index 1 to 4:", arr[1:5])
+print("First 3 Elements:", arr[:3])
+print("Last 3 Elements:", arr[-3:])
+
+print("\nFirst Two Rows:")
+print(matrix[:2])
+
+print("\nSecond Column:")
+print(matrix[:, 1])
+
+# ==========================
+# Basic Statistics (No Loops)
+# ==========================
+
+print("\nSum:", np.sum(arr))
+print("Mean:", np.mean(arr))
+print("Maximum:", np.max(arr))
+print("Minimum:", np.min(arr))
+print("Standard Deviation:", np.std(arr))
+
+# ==========================
+# Bonus Operations
+# ==========================
+
+print("\nArray + 5:", arr + 5)
+print("Array × 2:", arr * 2)
+print("Square of Array:", arr ** 2)
