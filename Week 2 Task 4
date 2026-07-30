@@ -1,0 +1,27 @@
+import pandas as pd
+
+# Dataset 1: Students
+students = pd.DataFrame({
+    "ID": [1, 2, 3],
+    "Name": ["Ali", "Sara", "Ahmed"]
+})
+
+# Dataset 2: Marks
+marks = pd.DataFrame({
+    "ID": [1, 2, 3],
+    "Marks": [85, 92, 78]
+})
+
+# Merge the datasets
+merged = pd.merge(students, marks, on="ID")
+
+# Display merged dataset
+print("Merged Dataset:")
+print(merged)
+
+# Produce summary
+print("\nSummary:")
+print("Number of Students:", len(merged))
+print("Average Marks:", merged["Marks"].mean())
+print("Highest Marks:", merged["Marks"].max())
+print("Lowest Marks:", merged["Marks"].min())
