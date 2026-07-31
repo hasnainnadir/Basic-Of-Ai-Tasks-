@@ -1,0 +1,34 @@
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.ERROR,
+    format="%(levelname)s: %(message)s"
+)
+
+# Custom exception class
+class NegativeNumberError(Exception):
+    """Raised when a negative number is entered."""
+    pass
+
+
+def square_root(num):
+    if num < 0:
+        raise NegativeNumberError("Negative numbers are not allowed.")
+    return num ** 0.5
+
+
+# Main program
+try:
+    number = float(input("Enter a number: "))
+    result = square_root(number)
+    print("Square root =", result)
+
+except NegativeNumberError as e:
+    logging.error(e)
+
+except ValueError:
+    logging.error("Invalid input! Please enter a valid number.")
+
+except Exception as e:
+    logging.error(f"Unexpected error: {e}")
