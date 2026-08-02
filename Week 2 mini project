@@ -1,0 +1,59 @@
+# ==========================================
+# Data Cleaning Tool
+# ==========================================
+
+import pandas as pd
+
+# ---------- File Names ----------
+input_file = "messy_data.csv"
+output_file = "cleaned_data.csv"
+
+# ---------- Load CSV ----------
+df = pd.read_csv(input_file)
+
+# Save original row count
+original_rows = len(df)
+
+# ---------- Remove Duplicate Rows ----------
+duplicates_removed = df.duplicated().sum()
+df = df.drop_duplicates()
+
+# ---------- Handle Missing Values ----------
+missing_before = df.isnull().sum().sum()
+
+# Fill missing values
+for column in df.columns:
+    if df[column].dtype == "object":
+        df[column] = df[column].fillna("Unknown")
+    else:
+        df[column] = df[column].fillna(df[column].mean())
+
+missing_after = df.isnull().sum().sum()
+
+# ---------- Clean Text Columns ----------
+for column in df.select_dtypes(include="object").columns:
+    df[column] = (
+        df[column]
+        .astype(str)
+        .str.strip()      # Remove extra spaces
+        .str.title()      # Standardize text format
+    )
+
+# ---------- Standardize Date Columns ----------
+for column in df.columns:
+    if "date" in column.lower():
+        df[column] = pd.to_datetime(df[column], errors="coerce")
+        df[column] = df[column].dt.strftime("%Y-%m-%d")
+
+# ---------- Save Cleaned CSV ----------
+df.to_csv(output_file, index=False)
+
+# ---------- Summary Report ----------
+print("\n========== DATA CLEANING REPORT ==========")
+print(f"Original Rows       : {original_rows}")
+print(f"Final Rows          : {len(df)}")
+print(f"Duplicates Removed  : {duplicates_removed}")
+print(f"Missing Values Before: {missing_before}")
+print(f"Missing Values After : {missing_after}")
+print(f"Cleaned File Saved  : {output_file}")
+print("==========================================")
