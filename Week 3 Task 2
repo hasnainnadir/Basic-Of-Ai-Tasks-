@@ -1,0 +1,33 @@
+# Import libraries
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Sample numeric dataset
+data = {
+    "Math": [85, 90, 78, 92, 88],
+    "Science": [80, 95, 75, 90, 85],
+    "English": [78, 85, 72, 88, 84],
+    "Computer": [90, 98, 80, 95, 92]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Compute correlation matrix
+correlation = df.corr()
+
+# Create heatmap
+plt.figure(figsize=(6, 5))
+sns.heatmap(
+    correlation,
+    annot=True,      # Show correlation values
+    cmap="coolwarm", # Color map
+    linewidths=0.5
+)
+
+# Add title
+plt.title("Correlation Heatmap")
+
+# Show plot
+plt.show()
