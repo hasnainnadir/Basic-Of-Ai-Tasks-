@@ -1,24 +1,23 @@
-# Import libraries
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Sample numeric dataset
 data = {
-    "Math": [85, 90, 78, 92, 88],
-    "Science": [80, 95, 75, 90, 85],
-    "English": [78, 85, 72, 88, 84],
-    "Computer": [90, 98, 80, 95, 92]
+    "Age": [20, 22, 25, 28, 30],
+    "Height": [160, 165, 170, 175, 180],
+    "Weight": [55, 60, 65, 70, 75],
+    "Marks": [70, 75, 80, 85, 90]
 }
 
 # Create DataFrame
 df = pd.DataFrame(data)
 
-# Compute correlation matrix
+# Calculate correlation matrix
 correlation = df.corr()
 
 # Create heatmap
-plt.figure(figsize=(6, 5))
+plt.figure(figsize=(6, 4))
 sns.heatmap(
     correlation,
     annot=True,      # Show correlation values
@@ -26,7 +25,7 @@ sns.heatmap(
     linewidths=0.5
 )
 
-# Add title
+# Title
 plt.title("Correlation Heatmap")
 
 # Show plot
