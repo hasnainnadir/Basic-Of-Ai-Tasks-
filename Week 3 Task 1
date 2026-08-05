@@ -1,0 +1,85 @@
+import csv
+import json
+
+# -------------------------------
+# Create a sample CSV file
+# -------------------------------
+with open("students.csv", "w", newline="") as file:
+    writer = csv.writer(file)
+    writer.writerow(["Name", "Age", "Marks"])
+    writer.writerow(["Ali", 20, 85])
+    writer.writerow(["Sara", 19, 92])
+    writer.writerow(["Ahmed", 21, 75])
+
+# -------------------------------
+# Read CSV file
+# -------------------------------
+students = []
+
+with open("students.csv", "r") as file:
+    reader = csv.DictReader(file)
+
+    for row in reader:
+        row["Age"] = int(row["Age"])
+        row["Marks"] = int(row["Marks"])
+        students.append(row)
+
+print("CSV Data:")
+for student in students:
+    print(student)
+
+# -------------------------------
+# Filter CSV records (Marks >= 80)
+# -------------------------------
+filtered_csv = []
+
+for student in students:
+    if student["Marks"] >= 80:
+        filtered_csv.append(student)
+
+# -------------------------------
+# Write filtered CSV
+# -------------------------------
+with open("filtered_students.csv", "w", newline="") as file:
+    writer = csv.DictWriter(file, fieldnames=["Name", "Age", "Marks"])
+    writer.writeheader()
+    writer.writerows(filtered_csv)
+
+# -------------------------------
+# Create a sample JSON file
+# -------------------------------
+data = [
+    {"Name": "Ali", "Age": 20, "Marks": 85},
+    {"Name": "Sara", "Age": 19, "Marks": 92},
+    {"Name": "Ahmed", "Age": 21, "Marks": 75}
+]
+
+with open("students.json", "w") as file:
+    json.dump(data, file, indent=4)
+
+# -------------------------------
+# Read JSON file
+# -------------------------------
+with open("students.json", "r") as file:
+    json_data = json.load(file)
+
+print("\nJSON Data:")
+for student in json_data:
+    print(student)
+
+# -------------------------------
+# Filter JSON records (Age >= 20)
+# -------------------------------
+filtered_json = []
+
+for student in json_data:
+    if student["Age"] >= 20:
+        filtered_json.append(student)
+
+# -------------------------------
+# Write filtered JSON
+# -------------------------------
+with open("filtered_students.json", "w") as file:
+    json.dump(filtered_json, file, indent=4)
+
+print("\nFiltered records have been saved successfully!")
