@@ -1,0 +1,25 @@
+import requests
+import matplotlib.pyplot as plt
+
+# Fetch data from a public JSON API
+url = "https://jsonplaceholder.typicode.com/users"
+response = requests.get(url)
+
+# Parse JSON response
+users = response.json()
+
+# Extract names and IDs
+names = [user["name"] for user in users]
+ids = [user["id"] for user in users]
+
+# Create a bar chart
+plt.figure(figsize=(10, 5))
+plt.bar(names, ids)
+
+plt.title("User IDs by Name")
+plt.xlabel("User Name")
+plt.ylabel("User ID")
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+plt.show()
