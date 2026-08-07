@@ -1,0 +1,55 @@
+# visualization.py
+
+import matplotlib.pyplot as plt
+
+
+# Function 1: Bar Chart
+def plot_bar(categories, values, title="Bar Chart"):
+    plt.figure(figsize=(6, 4))
+    plt.bar(categories, values)
+    plt.title(title)
+    plt.xlabel("Categories")
+    plt.ylabel("Values")
+    plt.grid(axis="y", linestyle="--", alpha=0.5)
+    plt.show()
+
+
+# Function 2: Line Chart
+def plot_line(x, y, title="Line Chart"):
+    plt.figure(figsize=(6, 4))
+    plt.plot(x, y, marker="o")
+    plt.title(title)
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.grid(True)
+    plt.show()
+
+
+# Function 3: Pie Chart
+def plot_pie(labels, sizes, title="Pie Chart"):
+    plt.figure(figsize=(6, 6))
+    plt.pie(sizes, labels=labels, autopct="%1.1f%%", startangle=90)
+    plt.title(title)
+    plt.axis("equal")
+    plt.show()
+
+
+# Example Usage
+if __name__ == "__main__":
+
+    # Sample Data
+    subjects = ["Math", "Science", "English", "AI"]
+    marks = [85, 90, 78, 95]
+
+    # Bar Chart
+    plot_bar(subjects, marks, "Student Marks")
+
+    # Line Chart
+    days = [1, 2, 3, 4, 5]
+    temperatures = [30, 32, 31, 33, 35]
+    plot_line(days, temperatures, "Temperature Over Days")
+
+    # Pie Chart
+    expenses = [500, 300, 200]
+    labels = ["Food", "Transport", "Other"]
+    plot_pie(labels, expenses, "Monthly Expenses")
