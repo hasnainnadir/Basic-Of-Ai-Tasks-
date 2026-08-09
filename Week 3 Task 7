@@ -1,0 +1,130 @@
+# ==========================================
+# EDA MINI-DASHBOARD
+# ==========================================
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# ------------------------------------------
+# 1. LOAD DATASET
+# ------------------------------------------
+
+# Load Titanic dataset from Seaborn
+df = sns.load_dataset("titanic")
+
+print("Dataset loaded successfully!")
+print(df.head())
+
+# ------------------------------------------
+# 2. BASIC DATA INFORMATION
+# ------------------------------------------
+
+print("\nDataset Shape:")
+print(df.shape)
+
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+print("\nBasic Statistics:")
+print(df.describe())
+
+# ------------------------------------------
+# 3. CHART 1 - SURVIVAL COUNT
+# ------------------------------------------
+
+plt.figure(figsize=(7, 5))
+
+sns.countplot(data=df, x="survived")
+
+plt.title("Survival Count")
+plt.xlabel("Survived (0 = No, 1 = Yes)")
+plt.ylabel("Number of Passengers")
+
+plt.tight_layout()
+plt.show()
+
+# ------------------------------------------
+# 4. CHART 2 - PASSENGERS BY CLASS
+# ------------------------------------------
+
+plt.figure(figsize=(7, 5))
+
+sns.countplot(data=df, x="class")
+
+plt.title("Passengers by Class")
+plt.xlabel("Passenger Class")
+plt.ylabel("Number of Passengers")
+
+plt.tight_layout()
+plt.show()
+
+# ------------------------------------------
+# 5. CHART 3 - AGE DISTRIBUTION
+# ------------------------------------------
+
+plt.figure(figsize=(7, 5))
+
+sns.histplot(df["age"].dropna(), bins=20, kde=True)
+
+plt.title("Age Distribution")
+plt.xlabel("Age")
+plt.ylabel("Number of Passengers")
+
+plt.tight_layout()
+plt.show()
+
+# ------------------------------------------
+# 6. CHART 4 - SURVIVAL BY GENDER
+# ------------------------------------------
+
+plt.figure(figsize=(7, 5))
+
+sns.countplot(data=df, x="sex", hue="survived")
+
+plt.title("Survival by Gender")
+plt.xlabel("Gender")
+plt.ylabel("Number of Passengers")
+
+plt.tight_layout()
+plt.show()
+
+# ------------------------------------------
+# 7. AUTOMATIC INSIGHTS
+# ------------------------------------------
+
+total_passengers = len(df)
+
+survival_rate = df["survived"].mean() * 100
+
+male_survival = df[df["sex"] == "male"]["survived"].mean() * 100
+female_survival = df[df["sex"] == "female"]["survived"].mean() * 100
+
+most_common_class = df["class"].value_counts().idxmax()
+
+average_age = df["age"].mean()
+
+print("\n========== EDA INSIGHTS ==========")
+
+print(
+    f"1. The overall survival rate was approximately "
+    f"{survival_rate:.1f}%."
+)
+
+print(
+    f"2. Females had a higher survival rate "
+    f"({female_survival:.1f}%) than males "
+    f"({male_survival:.1f}%)."
+)
+
+print(
+    f"3. The most common passenger class was "
+    f"{most_common_class}."
+)
+
+print(
+    f"4. The average passenger age was approximately "
+    f"{average_age:.1f} years."
+)
+
+print("\nEDA Dashboard completed successfully!")
