@@ -1,0 +1,110 @@
+# ==========================================
+# 1. CREATE PROJECT FOLDER
+# ==========================================
+
+mkdir greeting-script
+cd greeting-script
+
+
+# ==========================================
+# 2. CREATE PYTHON FILE
+# ==========================================
+
+# Create hello.py manually in VS Code
+# Put this code inside hello.py:
+
+# ------------------------------------------
+# hello.py
+# ------------------------------------------
+
+def greet(name):
+    return f"Hello, {name}!"
+
+name = input("Enter your name: ")
+print(greet(name))
+
+
+# ==========================================
+# 3. INITIALIZE GIT
+# ==========================================
+
+git init
+git add hello.py
+git commit -m "Initial commit: add greeting script"
+
+
+# ==========================================
+# 4. MAKE COMMIT 2
+# ==========================================
+
+# Change hello.py to:
+
+def greet(name):
+    return f"Hello, {name.title()}!"
+
+name = input("Enter your name: ")
+print(greet(name))
+
+# Then run:
+
+git add hello.py
+git commit -m "Improve greeting by capitalizing user name"
+
+
+# ==========================================
+# 5. MAKE COMMIT 3
+# ==========================================
+
+# Change hello.py to:
+
+def greet(name):
+    return f"Hello, {name.title()}!"
+
+while True:
+    name = input("Enter your name (or 'q' to quit): ")
+
+    if name.lower() == "q":
+        print("Goodbye!")
+        break
+
+    print(greet(name))
+
+# Then run:
+
+git add hello.py
+git commit -m "Add loop and quit option"
+
+
+# ==========================================
+# 6. CHECK YOUR COMMITS
+# ==========================================
+
+git log --oneline
+
+
+# You should see something like:
+#
+# Add loop and quit option
+# Improve greeting by capitalizing user name
+# Initial commit: add greeting script
+
+
+# ==========================================
+# 7. CONNECT TO GITHUB
+# ==========================================
+
+# First create a repository on GitHub
+# Repository name: greeting-script
+#
+# Then replace YOUR_USERNAME with your GitHub username:
+
+git remote add origin https://github.com/YOUR_USERNAME/greeting-script.git
+
+git branch -M main
+
+
+# ==========================================
+# 8. PUSH TO GITHUB
+# ==========================================
+
+git push -u origin main
