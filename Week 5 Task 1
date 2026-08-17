@@ -1,0 +1,78 @@
+# K-Nearest Neighbors (KNN) from Scratch
+
+import math
+from collections import Counter
+
+# --------------------------------------------------
+# 1. Small 2D Dataset
+# --------------------------------------------------
+# Each point has [x, y] and a class label
+
+X = [
+    [1, 2],
+    [2, 3],
+    [3, 3],
+    [5, 5],
+    [6, 5],
+    [7, 7]
+]
+
+y = [
+    "A",
+    "A",
+    "A",
+    "B",
+    "B",
+    "B"
+]
+
+
+# --------------------------------------------------
+# 2. Calculate Euclidean Distance
+# --------------------------------------------------
+def euclidean_distance(point1, point2):
+    distance = 0
+
+    for i in range(len(point1)):
+        distance += (point1[i] - point2[i]) ** 2
+
+    return math.sqrt(distance)
+
+
+# --------------------------------------------------
+# 3. KNN Prediction Function
+# --------------------------------------------------
+def knn_predict(X, y, new_point, k=3):
+
+    distances = []
+
+    # Calculate distance from new point to every training point
+    for i in range(len(X)):
+        distance = euclidean_distance(X[i], new_point)
+        distances.append((distance, y[i]))
+
+    # Sort points by distance
+    distances.sort(key=lambda x: x[0])
+
+    # Select k nearest neighbors
+    nearest_neighbors = distances[:k]
+
+    # Get their labels
+    labels = [label for distance, label in nearest_neighbors]
+
+    # Majority voting
+    prediction = Counter(labels).most_common(1)[0][0]
+
+    return prediction
+
+
+# --------------------------------------------------
+# 4. Test the Model
+# --------------------------------------------------
+
+new_point = [4, 4]
+
+prediction = knn_predict(X, y, new_point, k=3)
+
+print("New Point:", new_point)
+print("Predicted Class:", prediction)
