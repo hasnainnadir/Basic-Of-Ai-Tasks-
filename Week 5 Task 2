@@ -1,0 +1,51 @@
+# Decision Tree Classifier
+
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
+
+# 1. Small dataset
+# Features: [Study Hours, Attendance]
+X = [
+    [1, 60],
+    [2, 65],
+    [3, 70],
+    [4, 75],
+    [5, 80],
+    [6, 85],
+    [7, 90],
+    [8, 95]
+]
+
+# 0 = Fail, 1 = Pass
+y = [0, 0, 0, 1, 1, 1, 1, 1]
+
+# 2. Create and train Decision Tree
+model = DecisionTreeClassifier(
+    criterion="gini",
+    max_depth=3,
+    random_state=42
+)
+
+model.fit(X, y)
+
+# 3. Make a prediction
+prediction = model.predict([[4.5, 78]])
+
+if prediction[0] == 1:
+    print("Prediction: Pass")
+else:
+    print("Prediction: Fail")
+
+# 4. Visualize the Decision Tree
+plt.figure(figsize=(12, 7))
+
+plot_tree(
+    model,
+    feature_names=["Study Hours", "Attendance"],
+    class_names=["Fail", "Pass"],
+    filled=True,
+    rounded=True
+)
+
+plt.title("Decision Tree Classifier")
+plt.show()
