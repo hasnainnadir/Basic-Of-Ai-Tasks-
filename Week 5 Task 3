@@ -1,0 +1,115 @@
+# Random Forest vs Decision Tree
+# --------------------------------
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+import numpy as np
+
+# 1. Dataset
+# Features: Study Hours, Attendance
+X = np.array([
+    [1, 60],
+    [2, 65],
+    [3, 70],
+    [4, 75],
+    [5, 80],
+    [6, 85],
+    [7, 90],
+    [8, 95],
+    [2, 55],
+    [3, 68],
+    [5, 78],
+    [6, 88],
+    [7, 92]
+])
+
+# 0 = Fail, 1 = Pass
+y = np.array([
+    0, 0, 0, 1, 1, 1,
+    1, 1, 0, 0, 1, 1
+])
+
+# 2. Split data into training and testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.3,
+    random_state=42
+)
+
+# 3. Train Single Decision Tree
+dt = DecisionTreeClassifier(
+    max_depth=3,
+    random_state=42
+)
+
+dt.fit(X_train, y_train)
+
+# Decision Tree prediction
+dt_pred = dt.predict(X_test)
+
+# Decision Tree accuracy
+dt_accuracy = accuracy_score(y_test, dt_pred)
+
+
+# 4. Train Random Forest
+rf = RandomForestClassifier(
+    n_estimators=100,
+    max_depth=3,
+    random_state=42
+)
+
+rf.fit(X_train, y_train)
+
+# Random Forest prediction
+rf_pred = rf.predict(X_test)
+
+# Random Forest accuracy
+rf_accuracy = accuracy_score(y_test, rf_pred)
+
+
+# 5. Compare Accuracy
+print("Decision Tree Accuracy:", dt_accuracy)
+print("Random Forest Accuracy:", rf_accuracy)
+
+
+# 6. Feature Importance
+features = ["Study Hours", "Attendance"]
+
+print("\nDecision Tree Feature Importance:")
+for feature, importance in zip(features, dt.feature_importances_):
+    print(feature, ":", round(importance, 3))
+
+print("\nRandom Forest Feature Importance:")
+for feature, importance in zip(features, rf.feature_importances_):
+    print(feature, ":", round(importance, 3))
+
+
+# 7. Plot Feature Importance
+x = np.arange(len(features))
+width = 0.35
+
+plt.figure(figsize=(8, 5))
+
+plt.bar(
+    x - width/2,
+    dt.feature_importances_,
+    width,
+    label="Decision Tree"
+)
+
+plt.bar(
+    x + width/2,
+    rf.feature_importances_,
+    width,
+    label="Random Forest"
+)
+
+plt.xticks(x, features)
+plt.ylabel("Importance")
+plt.title("Feature Importance Comparison")
+plt.legend()
+
+plt.show()
