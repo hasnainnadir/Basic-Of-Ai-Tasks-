@@ -1,0 +1,35 @@
+# K-Fold Cross-Validation with Logistic Regression
+# ------------------------------------------------
+
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import KFold, cross_val_score
+
+# Dataset
+# Features: Study Hours, Attendance
+X = np.array([
+    [1, 60],
+    [2, 65],
+    [3, 70],
+    [4, 75],
+    [5, 80],
+    [6, 85],
+    [7, 90],
+    [8, 95]
+])
+
+# Target: 0 = Fail, 1 = Pass
+y = np.array([0, 0, 0, 1, 1, 1, 1, 1])
+
+# Create Logistic Regression model
+model = LogisticRegression()
+
+# Create 5-fold cross-validation
+kfold = KFold(n_splits=5, shuffle=True, random_state=42)
+
+# Calculate cross-validation scores
+scores = cross_val_score(model, X, y, cv=kfold, scoring='accuracy')
+
+# Display results
+print("Fold Accuracy Scores:", scores)
+print("Average Accuracy:", scores.mean())
