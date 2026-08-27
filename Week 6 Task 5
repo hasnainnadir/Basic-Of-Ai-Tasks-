@@ -1,0 +1,78 @@
+# Feed-Forward Neural Network on Toy Dataset
+# -------------------------------------------
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# 1. Toy dataset: XOR
+X = torch.tensor([
+    [0.0, 0.0],
+    [0.0, 1.0],
+    [1.0, 0.0],
+    [1.0, 1.0]
+])
+
+y = torch.tensor([
+    [0.0],
+    [1.0],
+    [1.0],
+    [0.0]
+])
+
+# 2. Define Feed-Forward Neural Network
+class NeuralNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.network = nn.Sequential(
+            nn.Linear(2, 4),   # Input layer -> Hidden layer
+            nn.ReLU(),
+            nn.Linear(4, 1),   # Hidden layer -> Output layer
+            nn.Sigmoid()
+        )
+
+    def forward(self, x):
+        return self.network(x)
+
+
+# 3. Create model
+model = NeuralNetwork()
+
+# 4. Loss function and optimizer
+criterion = nn.BCELoss()
+optimizer = optim.Adam(model.parameters(), lr=0.05)
+
+# 5. Train the network
+for epoch in range(1000):
+
+    # Forward pass
+    output = model(X)
+
+    # Calculate loss
+    loss = criterion(output, y)
+
+    # Backpropagation
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+    if (epoch + 1) % 100 == 0:
+        print(f"Epoch {epoch + 1}, Loss: {loss.item():.4f}")
+
+
+# 6. Test the model
+with torch.no_grad():
+    predictions = model(X)
+    predicted_classes = (predictions >= 0.5).float()
+
+print("\nPredictions:")
+print(predicted_classes)
+
+print("\nActual:")
+print(y)
+
+# 7. Accuracy
+accuracy = (predicted_classes == y).float().mean()
+
+print("\nAccuracy:", accuracy.item() * 100, "%")
