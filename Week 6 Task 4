@@ -1,0 +1,73 @@
+# Perceptron from Scratch
+# -----------------------
+
+import numpy as np
+
+# Step function
+def step_function(x):
+    return 1 if x >= 0 else 0
+
+
+# Perceptron class
+class Perceptron:
+    def __init__(self, learning_rate=0.1, epochs=10):
+        self.learning_rate = learning_rate
+        self.epochs = epochs
+        self.weights = None
+        self.bias = 0
+
+    def fit(self, X, y):
+        # Initialize weights
+        self.weights = np.zeros(X.shape[1])
+
+        # Training
+        for _ in range(self.epochs):
+            for xi, target in zip(X, y):
+
+                # Calculate weighted sum
+                z = np.dot(xi, self.weights) + self.bias
+
+                # Step function
+                prediction = step_function(z)
+
+                # Calculate error
+                error = target - prediction
+
+                # Update weights and bias
+                self.weights += self.learning_rate * error * xi
+                self.bias += self.learning_rate * error
+
+    def predict(self, X):
+        predictions = []
+
+        for xi in X:
+            z = np.dot(xi, self.weights) + self.bias
+            predictions.append(step_function(z))
+
+        return np.array(predictions)
+
+
+# Simple AND gate dataset
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+y = np.array([0, 0, 0, 1])
+
+# Create and train perceptron
+model = Perceptron(learning_rate=0.1, epochs=10)
+model.fit(X, y)
+
+# Test
+predictions = model.predict(X)
+
+print("Weights:", model.weights)
+print("Bias:", model.bias)
+print("Predictions:", predictions)
+
+# Check accuracy
+accuracy = np.mean(predictions == y)
+print("Accuracy:", accuracy * 100, "%")
