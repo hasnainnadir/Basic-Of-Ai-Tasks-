@@ -1,0 +1,85 @@
+# Tune Learning Rate and Epochs
+# -----------------------------
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# XOR Dataset
+X = torch.tensor([
+    [0.0, 0.0],
+    [0.0, 1.0],
+    [1.0, 0.0],
+    [1.0, 1.0]
+])
+
+y = torch.tensor([
+    [0.0],
+    [1.0],
+    [1.0],
+    [0.0]
+])
+
+
+# Neural Network
+class NeuralNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.network = nn.Sequential(
+            nn.Linear(2, 4),
+            nn.ReLU(),
+            nn.Linear(4, 1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, x):
+        return self.network(x)
+
+
+# Function to train and evaluate
+def train_model(learning_rate, epochs):
+
+    model = NeuralNetwork()
+
+    criterion = nn.BCELoss()
+    optimizer = optim.Adam(
+        model.parameters(),
+        lr=learning_rate
+    )
+
+    # Training
+    for epoch in range(epochs):
+
+        outputs = model(X)
+
+        loss = criterion(outputs, y)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+    # Accuracy
+    with torch.no_grad():
+        predictions = model(X)
+        predicted_classes = (predictions >= 0.5).float()
+
+        accuracy = (predicted_classes == y).float().mean() * 100
+
+    return accuracy.item()
+
+
+# Test different learning rates and epochs
+learning_rates = [0.001, 0.01, 0.1]
+epochs_list = [100, 500, 2000]
+
+print("Learning Rate | Epochs | Accuracy")
+print("----------------------------------")
+
+for lr in learning_rates:
+
+    for epochs in epochs_list:
+
+        accuracy = train_model(lr, epochs)
+
+        print(f"{lr:<13} | {epochs:<6} | {accuracy:.2f}%")
