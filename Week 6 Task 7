@@ -1,0 +1,151 @@
+# Security-Aware Spam/Phishing Text Classifier
+# ---------------------------------------------
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+
+
+# ------------------------------------------------
+# 1. Small Toy Dataset
+# ------------------------------------------------
+
+texts = [
+    "Congratulations you won a free prize",
+    "Click this link to claim your reward",
+    "You have won a lottery",
+    "Urgent! Verify your account immediately",
+    "Your account will be blocked click here",
+    "You have received a free gift",
+    "Claim your cash prize now",
+    "Enter your password to verify your account",
+
+    "Can you send me the class notes",
+    "Let's meet tomorrow for the project",
+    "Your assignment is due tomorrow",
+    "Please call me when you arrive",
+    "The meeting starts at 10 AM",
+    "Can you share the Python code",
+    "I will send you the report today",
+    "Don't forget about our class"
+]
+
+# 1 = Spam/Phishing
+# 0 = Safe
+labels = [
+    1, 1, 1, 1,
+    1, 1, 1, 1,
+    0, 0, 0, 0,
+    0, 0, 0, 0
+]
+
+
+# ------------------------------------------------
+# 2. Split Dataset
+# ------------------------------------------------
+
+X_train, X_test, y_train, y_test = train_test_split(
+    texts,
+    labels,
+    test_size=0.25,
+    random_state=42,
+    stratify=labels
+)
+
+
+# ------------------------------------------------
+# 3. Build NLP Pipeline
+# ------------------------------------------------
+
+model = Pipeline([
+    ("tfidf", TfidfVectorizer(
+        lowercase=True,
+        max_features=1000
+    )),
+    ("classifier", LogisticRegression(
+        max_iter=1000
+    ))
+])
+
+
+# ------------------------------------------------
+# 4. Train Model
+# ------------------------------------------------
+
+model.fit(X_train, y_train)
+
+
+# ------------------------------------------------
+# 5. Evaluate Model
+# ------------------------------------------------
+
+predictions = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, predictions)
+
+print("Accuracy:", round(accuracy * 100, 2), "%")
+print("\nClassification Report:")
+print(classification_report(
+    y_test,
+    predictions,
+    target_names=["Safe", "Spam/Phishing"],
+    zero_division=0
+))
+
+
+# ------------------------------------------------
+# 6. Basic Input Validation
+# ------------------------------------------------
+
+def validate_input(message):
+
+    # Check that input is a string
+    if not isinstance(message, str):
+        return False, "Invalid input type."
+
+    # Remove unnecessary spaces
+    message = message.strip()
+
+    # Reject empty input
+    if not message:
+        return False, "Message cannot be empty."
+
+    # Limit input size
+    if len(message) > 500:
+        return False, "Message is too long. Maximum 500 characters."
+
+    return True, message
+
+
+# ------------------------------------------------
+# 7. Test User Messages
+# ------------------------------------------------
+
+while True:
+
+    user_message = input(
+        "\nEnter a message (type 'quit' to exit): "
+    )
+
+    if user_message.lower().strip() == "quit":
+        print("Program ended.")
+        break
+
+    valid, result = validate_input(user_message)
+
+    if not valid:
+        print("Input Error:", result)
+        continue
+
+    prediction = model.predict([result])[0]
+
+    probability = model.predict_proba([result])[0].max()
+
+    if prediction == 1:
+        print("Result: SPAM / PHISHING")
+    else:
+        print("Result: SAFE")
+
+    print("Confidence:", round(probability * 100, 2), "%")
