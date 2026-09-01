@@ -1,0 +1,28 @@
+# Install first if needed:
+# pip install transformers torch
+
+from transformers import pipeline
+
+# Load pretrained sentiment-analysis model
+sentiment = pipeline("sentiment-analysis")
+
+# 5 sample sentences
+sentences = [
+    "I love this product. It is amazing!",
+    "The movie was boring and disappointing.",
+    "The food was really good.",
+    "I am very unhappy with the service.",
+    "The weather is okay today."
+]
+
+# Run sentiment analysis
+results = sentiment(sentences)
+
+# Display results
+print("Sentiment Analysis Results:\n")
+
+for sentence, result in zip(sentences, results):
+    print("Sentence:", sentence)
+    print("Sentiment:", result["label"])
+    print("Confidence:", round(result["score"], 4))
+    print("-" * 50)
