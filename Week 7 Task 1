@@ -1,0 +1,53 @@
+# Tokenization: Manual vs Hugging Face
+
+# Install first if needed:
+# pip install transformers
+
+from transformers import AutoTokenizer
+import re
+
+# 1. Paragraph
+text = """
+Artificial Intelligence is changing the world. Machine learning helps
+computers learn from data and make predictions!
+"""
+
+# --------------------------------------------------
+# 2. Manual Tokenization
+# --------------------------------------------------
+
+# Split words and punctuation separately
+manual_tokens = re.findall(r"\w+|[^\w\s]", text)
+
+print("Manual Tokens:")
+print(manual_tokens)
+print("Number of tokens:", len(manual_tokens))
+
+
+# --------------------------------------------------
+# 3. Hugging Face Tokenization
+# --------------------------------------------------
+
+# Load a pre-trained tokenizer
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+
+hf_tokens = tokenizer.tokenize(text)
+
+print("\nHugging Face Tokens:")
+print(hf_tokens)
+print("Number of tokens:", len(hf_tokens))
+
+
+# --------------------------------------------------
+# 4. Comparison
+# --------------------------------------------------
+
+print("\n--- Comparison ---")
+print("Manual token count:", len(manual_tokens))
+print("Hugging Face token count:", len(hf_tokens))
+
+print("\nManual tokenization:")
+print("Creates simple word/punctuation tokens.")
+
+print("\nHugging Face tokenization:")
+print("Uses subword tokenization, so some words may be split into smaller pieces.")
