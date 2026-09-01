@@ -1,0 +1,44 @@
+# Load and Preprocess a Small Image Dataset
+# -----------------------------------------
+
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. Load MNIST dataset
+(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
+
+print("Training images:", X_train.shape)
+print("Testing images:", X_test.shape)
+
+# 2. Normalize pixel values
+# Original values: 0 to 255
+# New values: 0 to 1
+X_train = X_train.astype("float32") / 255.0
+X_test = X_test.astype("float32") / 255.0
+
+# 3. Add channel dimension
+# From: (60000, 28, 28)
+# To:   (60000, 28, 28, 1)
+X_train = X_train[..., np.newaxis]
+X_test = X_test[..., np.newaxis]
+
+# 4. Use a small subset for practice
+X_train_small = X_train[:5000]
+y_train_small = y_train[:5000]
+
+X_test_small = X_test[:1000]
+y_test_small = y_test[:1000]
+
+print("Small training set:", X_train_small.shape)
+print("Small testing set:", X_test_small.shape)
+
+# 5. Display one image
+plt.imshow(X_train_small[0].squeeze(), cmap="gray")
+plt.title("Digit: " + str(y_train_small[0]))
+plt.axis("off")
+plt.show()
+
+# 6. Check preprocessing
+print("Minimum pixel value:", X_train_small.min())
+print("Maximum pixel value:", X_train_small.max())
