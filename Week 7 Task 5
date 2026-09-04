@@ -1,0 +1,40 @@
+import re
+
+def validate_input(user_input):
+    # Remove extra spaces
+    user_input = user_input.strip()
+
+    # 1. Check for empty input
+    if not user_input:
+        return False, "Input cannot be empty."
+
+    # 2. Limit input length
+    if len(user_input) > 100:
+        return False, "Input is too long."
+
+    # 3. Block common suspicious patterns
+    suspicious_patterns = [
+        r"<script.*?>",       # Script tags
+        r"javascript:",       # JavaScript URL
+        r"\bDROP\s+TABLE\b",  # SQL DROP TABLE
+        r"\bUNION\s+SELECT\b",# SQL UNION
+        r"--",                # SQL comment
+        r";\s*--",            # SQL comment pattern
+    ]
+
+    for pattern in suspicious_patterns:
+        if re.search(pattern, user_input, re.IGNORECASE):
+            return False, "Suspicious input detected."
+
+    return True, "Input is valid."
+
+
+# Example
+text = input("Enter text: ")
+
+valid, message = validate_input(text)
+
+if valid:
+    print("Accepted:", text)
+else:
+    print("Blocked:", message)
