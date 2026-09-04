@@ -1,0 +1,115 @@
+# ============================================================
+# Security-Aware Spam / Phishing Text Classifier
+# ============================================================
+
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+
+
+# ------------------------------------------------------------
+# 1. Small Training Dataset
+# ------------------------------------------------------------
+
+texts = [
+    "Congratulations! You won a free prize. Claim now.",
+    "Urgent! Your account has been selected for a reward.",
+    "Click this link to receive your free gift.",
+    "You have won $1000. Send your details to claim.",
+    "Your account will be blocked. Verify your password now.",
+    
+    "Hi, can we meet tomorrow for the project?",
+    "Please send me the assignment when you finish.",
+    "The meeting is scheduled for 10 AM.",
+    "Can you share the lecture notes with me?",
+    "Thank you for helping me with the project."
+]
+
+labels = [
+    "spam",
+    "spam",
+    "spam",
+    "spam",
+    "phishing",
+    
+    "normal",
+    "normal",
+    "normal",
+    "normal",
+    "normal"
+]
+
+
+# ------------------------------------------------------------
+# 2. Input Validation
+# ------------------------------------------------------------
+
+def validate_input(text):
+    text = text.strip()
+
+    # Empty input
+    if not text:
+        return False, "Input cannot be empty."
+
+    # Maximum length
+    if len(text) > 500:
+        return False, "Input is too long."
+
+    # Remove control characters
+    if any(ord(char) < 32 and char not in "\n\t" for char in text):
+        return False, "Invalid characters detected."
+
+    # Block obvious script injection
+    suspicious_patterns = [
+        r"<script.*?>",
+        r"javascript:",
+        r"<iframe.*?>"
+    ]
+
+    for pattern in suspicious_patterns:
+        if re.search(pattern, text, re.IGNORECASE):
+            return False, "Suspicious input detected."
+
+    return True, text
+
+
+# ------------------------------------------------------------
+# 3. Create NLP Model
+# ------------------------------------------------------------
+
+model = Pipeline([
+    ("tfidf", TfidfVectorizer(
+        lowercase=True,
+        max_features=1000
+    )),
+    ("classifier", LogisticRegression(max_iter=1000))
+])
+
+
+# ------------------------------------------------------------
+# 4. Train Model
+# ------------------------------------------------------------
+
+model.fit(texts, labels)
+
+
+# ------------------------------------------------------------
+# 5. Classify User Input
+# ------------------------------------------------------------
+
+user_text = input("Enter a message to classify: ")
+
+valid, result = validate_input(user_text)
+
+if not valid:
+    print("BLOCKED:", result)
+
+else:
+    prediction = model.predict([result])[0]
+
+    probabilities = model.predict_proba([result])[0]
+    confidence = max(probabilities) * 100
+
+    print("\nClassification:", prediction.upper())
+    print(f"Confidence: {confidence:.2f}%")
