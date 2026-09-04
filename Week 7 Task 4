@@ -1,0 +1,10 @@
+1. Broken Access Control — Users can access data or actions that they are not authorized to use.
+2. Cryptographic Failures — Sensitive information is not properly protected through encryption or secure storage.
+3. Injection — Attackers send harmful input that gets executed as commands or queries by the application.
+4. Insecure Design — Security weaknesses are created because security was not properly considered during system design.
+5. Security Misconfiguration — Incorrect or unsafe settings leave applications, servers, or databases exposed.
+6. Vulnerable and Outdated Components — Using old or insecure libraries and software can introduce known security vulnerabilities.
+7. Identification and Authentication Failures — Weak login and authentication systems can allow attackers to impersonate users.
+8. Software and Data Integrity Failures — Untrusted updates, code, or data can be used to compromise an application.
+9. Security Logging and Monitoring Failures — Poor logging and monitoring can prevent attacks from being detected or investigated quickly.
+10. Server-Side Request Forgery (SSRF) — An attacker tricks a server into making unauthorized requests to internal or external resources.
